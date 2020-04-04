@@ -1,0 +1,133 @@
+ผลงานนี้มาจากนายไกรวิท มงคลสกุลฤทธิ์ นิสิตปี 3 เทอม 2  // ศึกษาค้นคว้าและต่อยอดจาก ionic3 เนื่องจากอาจาร์ยผู้ถ่ายทอด ให้ได้แค่ version เก่า
+แต่ด้วยความกระหายความรู้อยากเข้าใจอยากเขียน จึงทำการค้นคว้าด้วยตัวเอง และเริ่มจาก ionic 3 , 4 , 5 และผู้พัฒนามองภาพการทำงานออกแล้วเลยมาแบ่งปัน
+มูลค่าของความมรู้พวกนี้ หากนำไปขาย คอร์ส 1 จะถูกตี มูลค่า ชั่วโมงละ 1,000 บาท ผมเคยสอนผู้เริ่มต้นใช้ ionic ค่าตัวต่ำ ๆ //หวังว่าจะนำมาแบ่งปันผมบ้างในอนาคตนะครับ
+
+แล้วเจ้า CRUD มันคืออะไรละนี้ มันคือส่วนของการ Create Read Update Delete ทำแค่นี้ได้ก็ ถือว่าเข้าใจง่ายได้ระดับหนึ่งแล้ว ต่อไปคือการส่ง Rest Api 
+
+โดยปกติทั่วไปผมเป็นคนพูดไม่ค่อยรู้เรื่องสำหรับคนอื่น ผมถนัดการอธิบายเป็นข้อความมากกว่าแต่ผมก็พยายามฝึกพูดอยู่ 
+
+ionic -v | 6.4.1 
+node -v | v12.16.1
+npm -v | 6.13.4
+ng -v | 9.1.0
+ 
+อย่างแรกให้เราทำการ เปิด CMD หรือจะเรียกว่า Commend Line
+โดยรูปภาพ มีแบบ blank , Tabs , sidemenu
+ionic start lab1 blank
+
+เมื่อทำการติดตั้งเสร็จเรียบร้อยเราต้อง cd lab1 > ionic serve
+ionic serve or ionic serve -l //คำสั่ง -l จะเป็นการแสดงส่วนหน้าต่างของ Ui android windows ios อาจจะไม่ตรง 100%
+
+ต่อไปนี้จะเป็นการาอธิบายเชิงพื้นฐานและลองจินตนาการไปพร้อมกับผม สำหรับผู้เริ่มต้น หากไม่ทำตามผมไป งมหาเข็มในมหาสมุทรของ Google ก็ไม่เจอครับถ้าไม่เข้าใจ 
+Structure ionic 5 
+folder : node_modules เปรียบเหมือนการบ่อน้ำเลี้ยง ที่รวบรวม Library โดยที่เราไม่ต้องไปสร้างสามารถ package เข้ามาเรียกใช้งานได้เลย
+folder : e2e เรียกอีกชื่อว่า End to End Testing ทำหน้าที่ Test Driven Development (TDD)
+folder : src จะเป็นส่วนหลักที่เราจะมาจัดการในเรื่องของการ ทำ CRUD and Rest Api
+< folder : src
+folder : app ส่วนหลักที่เราจะต้องจะต้องมาเรียนกัน
+folder : assets ส่วนในการเก็บ js css img icon 
+folder : enviroments ส่วนประกอบการกำหนด สิทธิ์ความปลอดภัย https://ionicframework.com/docs/appflow/automation/environments
+folder : theme ส่วนประกอบของ ตกแต่ง แต่ผมก็ไม่ได้ใช้ใน lab1 เพราะทำแค่ CRUD and rest api แค่นั้นจุดประสงค์ของผม ถ้าจะเอาลึกรอผมว่างเนอะ 
+>
+file : .gitignore ความสามารถที่ทำงานกับ Git ให้จำไว้ว่า ส่วนนี้ทาง Project ionic 5 จะทำการสร้างมาให้เราเอง
+file : angular.json ส่วนที่ angular ทำการเรียกใช้ Library ต่าง ๆ 
+file : browserslist คำอธิบายรองรับ browserslist support 9-11
+file : ionic.config.json องค์ประกอบ json files โดยจะมีชื่อ project และก็ชนิดของโปรเจค เช่นโปรเจคนี้คือ Angular หากอยากเพิ่มเติม https://ionicframework.com/docs/cli/configuration
+file : karma.conf.js โครงสร้างคำสั่งที่มีการทำงานเรียกใช้ oop config โดยเราจะเขียนแบบ javascript or typescript และโมดูลเป็น node.js โดยเรียกใช้ engine frameworks jasmine angular
+file : package-lock.json องค์ประกอบของ package ที่ถูกเรียกมาจาก node_modules ส่วนนี้ถ้าไม่ได้เก่ง อย่าพึ่งไปสนใจ ให้มาเล่นส่วน package.json
+file : package.json องค์ประกอบ package ที่มีการเรียกใช้ หลัก ๆ ในส่วนนี้ หากอยากปรับแต่ง เพิ่ม package ก็ทำการใส่ แล้วก็เพิ่มเวอร์ชั่น ทำการ npm i อีกรอบเป็นอันเรียบร้อย
+file : tsconfig.app.json ส่วนขององค์ประกอบ typescript https://www.typescriptlang.org/docs/handbook
+file : tsconfig.json ส่วนนี้ผมขอข้าม https://www.typescriptlang.org/docs/handbook 
+file : tslint.json ส่วนนี้ผมขอข้าม https://www.typescriptlang.org/docs/handbook
+file : คำอธิบาย.test ควรอ่านอย่างมากเพราะว่าจะมีการอธิบายขั้นตอนและสอนหากไม่อ่านก็ไปศึกษาเอง อยากสำเร็จก็ควรเริ่มตามผู้เขียน หากรีบร้อนกระโดดข้าม ก็จะไม่เข้าใจสเต็ป ของ workflow
+
+นำไปพัฒนาและปรับปรุงให้เหมาะกับงานของท่าน โดยผมจะใส่ Comments ไว้บนหัว topic 
+
+วิธีการตรวจสอบ ตัวช่วยในการสร้าง generate โดยพิมพ์พร้อมว่า backpack หย๊อก ๆ ionic g -help
+ionic g page การสร้างหน้า page จะถูกสร้างใน path src/app/ชื่อโฟลเดอร์
+ionic g component การสร้างหน้า ส่วนประกอบของ แล้วมันคืออะไรละ ง่าย ๆ เลยมันคือ แขนขา แล้วร่างกาย ส่วนต่าง ๆ ที่เราอยากให้มันทำงาน หากไม่อยากเอามาทำ ในหน้าเดี่ยวโค้ดมันจะเยอะแล้วมันจะเหนื่อยในการจัดการ
+ionic g service ส่วนสำคัญสำหรับ Api หากเป็นเวอร์ชั่นเก่าจะต้องพิมพ์ว่า ionic g providers แต่เวอร์ชั่นใหม่จะมีส่วน service มาจัดการ โดยเราจะยิง POST ไป
+ionic g module ส่วนประกอบของโมดุล แล้วมันคืออะไรละ งงสับสนไปหมดแล้ว เลิกเขียน ไม่อ่านแล้ว ผู้เขียนจะมาอธิบายง่าย ๆ แสนง่าย มันคือส่วนประกอบ ย่อย ๆ ที่มีการทำงานของมันเอง เปรียบเหมือน จิ๊กซอว์ ที่ประกอบรวบรวมกัน บางคนมักจะอธิบายความยากความยาว แต่หน้าที่มันก็ไม่ได้มีอะไรมากมายนั้น 
+ionic g class ส่วนประกอบ ที่บางคนก็ชอบเรียกว่า แม่ แล้วมันคืออะไรละแม่ มันคือ ให้จินตนาการ อาคาร โดยเราเรียกว่าแม่ ชั้น เรียกว่า method ส่วน ห้อง เราจะเรียกว่า object ไหนห้องก็จะมีคนมากมายหลายคน แล้ว Class ก็สามารถมีได้มากกว่า 1 
+ionic g directive ส่วนประกอบของคำสั่ง ถามว่าผมเคยใช้ไหม ตามเลยว่าไม่ได้ใช้เลยละ แต่จะหัดใช้เช่นกัน มันสามารถทำงานร่วมกับ component ได้ หากใครใช้บ่อยก็มาแบ่งปันกันหน่อยนะ 
+ionic g guard ส่วนประกอบการสร้าง Authentication แล้วมันคืออะไรละ มันคือ ตัวกำหนดสิทธิ์ หากทำการ login จะให้แสดง path ไหนบ้าง ถามว่าเราเขียน ใน module ได้ -,- ก็เค้าทำให้มันใช้งานง่ายอะ แต่ส่วนนี้ยังไม่ขอใส่ลง
+
+ให้เราทำการพิมพ์ 
+ionic g page login
+ionic g page register
+ionic g page add-book
+ionic g page edit-book
+ionic generate service providers/rest
+
+กรณีติดตั้ง generate service providers/rest ไม่ได้
+npm uninstall -g ionic
+npm i -g @ionic/cli
+//////////////////////////////////////////////
+
+src>app>app-routing.module.ts
+ทำการปรับส่วน object Routes
+{path: '', redirectTo: 'home', pathMatch: 'full'} to {path: '', redirectTo: 'login', pathMatch: 'full'}
+
+/////////////////////////////////////////////////////////
+mysql แบบฉบับพิมพ์ code myphpadmin 
+CREATE DATABASE lab1 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE TABLE users(
+	id int AUTO_INCREMENT,
+    username varchar(50) not null,
+    password varchar(50) not null,
+    dete_up timestamp, 
+    PRIMARY KEY (id),
+    CONSTRAINT uc_key1 UNIQUE (username)
+);
+CREATE TABLE book(
+ idb int AUTO_INCREMENT,
+  topic varchar(50) not null,
+  detail text not null,
+  dete_up timestamp, 
+  PRIMARY KEY (idb),
+  CONSTRAINT uc_key1 UNIQUE (topic)
+);
+/////////////////////////////////////////////////////////
+
+src>app>login>login.page.html
+src>app>login>login.page.ts
+src>app>app.module.ts
+import { HttpClientModule } from '@angular/common/http';
+src>app>providers>rest.service.ts
+import { RestService } from './../providers/rest.service';
+src>app>login>register.page.html
+src>app>login>register.page.ts
+src>app>login>home-book.page.html
+src>app>login>home-book.page.ts
+src>app>login>add-book.page.html
+src>app>login>add-book.page.ts
+src>app>app-routing.module.ts
+  {
+    path: 'edit-book/:topic',
+    loadChildren: () => import('./edit-book/edit-book.module').then( m => m.EditBookPageModule)
+  },
+src>app>login>edit-book.page.html
+src>app>login>edit-book.page.ts
+
+หวังว่าจะเข้าใจในงานของการทำ Ionic 5 กันนะครับ หากใครทำการแกะแล้วเข้าใจโครงสร้างก็ มาบอกกันนะครับ
+
+ต่อไปในส่วนของ php หากเรารับค่ามา ให้เราทำการใส่ส่วนี้ไปครับ
+<?php
+header("Access-Control-Allow-Origin: *");
+//แล้วทำการประกาศ mysql เรียกใช้ connection database
+
+$rawData = file_get_contents("php://input");
+$postData = json_decode($rawData, true);
+
+$ชื่อตัวแปร = isset($postData['ตัวแปรที่ถูกส่ง']) ? $postData['ตัวแปรที่ถูกส่ง'] : '';
+
+//นำไปเข้ากระบวนการ Query or CRUD แล้วนำผลออกมาแสดง ผ่าน echo json_encode(ข้อมูลที่ส่งกลับ);
+//หวังว่าทุกคนจะเข้าใจแล้วนำไปประยุกต์กับงานกันนะครับ 
+?>
+
+/*
+เครดิต นายไกรวิท มงคลสกุลฤทธิ์ นักศึกษาชั้นปี 3 ขอจบการแบ่งปันเพียงเท่านี้ครับ
+*/
+
+git remote add origin https://github.com/ez-kraivit/ionic5-crud-restapi-lab1.git
+git push -u origin master

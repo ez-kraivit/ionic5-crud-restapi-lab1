@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title><ion-label (click)="backs()"> <ion-icon name="arrow-back" ></ion-icon> edit book</ion-label></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form >
+    <ion-item>
+      <ion-label>topic</ion-label>
+      <ion-input type="text" [(ngModel)]="topic" name="topic"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>detail</ion-label>
+      <ion-textarea [(ngModel)]="detail" name="detail"></ion-textarea>
+    </ion-item>
+    <ion-button (click)="editbook()" color="danger">
+      Edit Book
+      <ion-icon slot="end" name="add"></ion-icon>
+    </ion-button>
+  </form>
+</ion-content>

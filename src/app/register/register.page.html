@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="row">
+    <form>
+      <ion-item>
+        <ion-label>Username</ion-label>
+        <ion-input type="text" [(ngModel)]="username" name="username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="password" name="password"></ion-input>
+      </ion-item>
+      <ion-button (click)="backs()">
+        Back
+        <ion-icon slot="end" name="arrow-back"></ion-icon>
+      </ion-button>
+      <ion-button (click)="Register()">
+        Register
+        <ion-icon slot="end" name="person-add"></ion-icon>
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <!-- เมื่อทำการกด label จะทำการส่งข้อมูลกลับไป home โดยการเรียกใช้ function backs -->
+    <ion-title><ion-label (click)="backs()"> <ion-icon name="arrow-back" ></ion-icon> add book</ion-label></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="row">
+    <form>
+      <ion-item>
+        <ion-label>topic</ion-label>
+        <ion-input type="text" [(ngModel)]="topic" name="topic"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>detail</ion-label>
+        <ion-textarea [(ngModel)]="detail" name="detail"></ion-textarea>
+      </ion-item>
+      <ion-button (click)="Addbook()" color="danger">
+        ADDBOOK
+        <ion-icon slot="end" name="add"></ion-icon>
+      </ion-button>
+    </form>
+  </div>
+</ion-content>

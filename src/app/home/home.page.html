@@ -1,20 +1,33 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      หน้าหลัก
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content>
+  <div class="row">
+    <ion-list>
+      <ion-item-sliding #item *ngFor="let book of books">
+        <ion-item (click)="editbook($event,book)">
+          หัวข้อ :  {{book.topic}}
+        </ion-item>
+        <ion-item-options side="end">
+          <button ion-button color="danger" (click)="deletebook($event,book)">Delete</button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+  <div class="row">
+    <!-- Inputs with labels -->
+    <ion-button (click)="logout()">
+      Logout
+      <ion-icon slot="end" name="log-out"></ion-icon>
+    </ion-button>
+    <ion-button (click)="Addbook()" color="danger">
+      Addbook
+      <ion-icon slot="end" name="add" ></ion-icon>
+    </ion-button>
   </div>
 </ion-content>
