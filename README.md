@@ -1,7 +1,7 @@
 # ionic5-crud-restapi-lab1
 ## ตรวจสอบ เบื้องต้น
 ionic -v 6.4.1 |
-node -v v12.16.1 |
+node -v 12.16.1 |
 npm -v 6.13.4 |
 ng -v 9.1.0 
 
